@@ -22,5 +22,4 @@ const toolbar:React.FC <Props>= (props) => {
     )
 }
 
-
 export default toolbar

@@ -14,9 +14,10 @@ interface Props{
 
 class Modal extends React.Component<Props> {
 
-    shouldComponentUpdate ( nextProps: { show: boolean; }, nextState:{show:boolean}) {
-        console.log(nextProps,"and also", nextState)
-        return nextProps.show !== this.props.show;
+    shouldComponentUpdate ( nextProps: {
+        children: JSX.Element; show: boolean; 
+}, nextState:{show:boolean}) {
+        return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
        
     }
 
