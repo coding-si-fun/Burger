@@ -4,7 +4,7 @@ import Burger from "../../components/Burger/Burger";
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from "../../components/Burger/orderSummary/orderSummary";
 
-import Aux from "../../hoc/_Aux"
+import Aux from "../../hoc/Aux/_Aux"
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 
 export interface Ingredients {
@@ -24,7 +24,6 @@ export interface BurgerBuilderState{
 }
 
 interface Ings {
- 
   children: JSX.Element
 }
 
@@ -70,9 +69,6 @@ const DISABLED_INFO: DisabledInfo = {
 
   updatePurchaseState(ingredients:Ingredients){
 
-    // const ingredients = {
-    //   ...this.state.ingredients
-    // }
     const sum = Object.keys(ingredients).map((igKey) =>{
       return ingredients[igKey as keyof Ingredients];
 
