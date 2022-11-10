@@ -2,10 +2,8 @@ import React, { MouseEventHandler } from 'react'
 import classes from './Backdrop.css'
 
 interface Props {
-    clicked: MouseEventHandler<HTMLDivElement> | undefined;
-    // clicked:boolean;
+    clicked?: MouseEventHandler<HTMLDivElement> | undefined;
     show:boolean;
- 
 }
 
 const backdrop:React.FC<Props>= (props) =>{

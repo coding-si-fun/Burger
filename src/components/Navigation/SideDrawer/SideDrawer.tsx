@@ -20,7 +20,7 @@ const sideDrawer:React.FC<Props> =(props) => {
     return (
         <Aux>
             <>
-            <Backdrop show={ props.open } clicked={props.closed }/>
+            <Backdrop show={props.open} clicked={props.closed }/>
                 <div className={attachedClasses.join(' ')}>
                     <div className={ classes.LogoSide }>
                         <Logo />

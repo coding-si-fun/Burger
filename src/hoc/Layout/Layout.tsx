@@ -1,20 +1,17 @@
 import React from "react";
-import Aux from '../../hoc/Aux/_Aux';
+import Aux from '../Aux/_Aux';
 import classes from './Layout.css'
-import Toolbar from "../Navigation/Toolbar/Toolbar"
+import Toolbar from "../../components/Navigation/Toolbar/Toolbar"
 import SideDrawer from "../../components/Navigation/SideDrawer/SideDrawer"
 
 
 interface Props{
-    children:JSX.Element,
-    open:boolean;
-        
-    
+    children:JSX.Element;
 }
 
  class Layout extends React.Component<Props>{
     state = {
-        showSideDrawer:true
+        showSideDrawer:false
     }
     sideDrawerClosedHandler = () =>{
         this.setState({ showSideDrawer:false })
@@ -28,7 +25,7 @@ interface Props{
         return(
         <Aux>
             <>
-            <Toolbar drawerToggleClicked={ this.sideDrawerToggleClicked }/>
+            <Toolbar drawerToggleClicked ={ this.sideDrawerToggleClicked }/>
             <SideDrawer 
             open = {this.state.showSideDrawer}
             closed={this.sideDrawerClosedHandler}/>

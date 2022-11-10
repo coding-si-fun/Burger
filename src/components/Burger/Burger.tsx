@@ -31,15 +31,19 @@ const Burger:React.FC <Props>= ({ingredients}, igKey) => {
         return arr.concat(el)
     },[]);
     if (transformedIngredients.length === 0) {
-        const str=<p>Pease start adding ingredients! </p>
+        const str=<p key={Math.random()}>Please start adding ingredients! </p>
         transformedIngredients.push(str)
     }
     return (
+        
         <div className={classes.Burger}>
+        <>
         <BurgerIngredient type="bread-top" />
         { transformedIngredients } 
         <BurgerIngredient type="bread-bottom" /> 
+        </>
         </div>
+      
     )
 }
 
