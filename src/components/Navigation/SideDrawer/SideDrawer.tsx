@@ -3,7 +3,7 @@ import Logo from "../../Logo/logo";
 import NavigationItems from '../NavigationItems/NavigationItems';
 import classes from "./sideDrawer.css"
 import Backdrop from "../../UI/Modal/Backdrop/Backdrop";
-import Aux from '../../../hoc/Aux/_Aux'
+import Aux from '../../../hoc/_Aux/_Aux'
 
 interface Props {
     closed: MouseEventHandler<HTMLDivElement> | undefined;
