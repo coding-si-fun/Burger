@@ -1,5 +1,5 @@
 import React, { MouseEventHandler, ReactElement } from 'react';
-import Aux from '../../../hoc/Aux/_Aux'
+import Aux from '../../../hoc/_Aux/_Aux'
 import Button from '../../../components/UI/Button/Button'
 
 import { BurgerBuilderState} from "../../../containers/BurgerBuilder/BurgerBuilder"

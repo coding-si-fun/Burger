@@ -1,6 +1,6 @@
 import React, { MouseEventHandler } from 'react';
 import classes from './Modal.css'
-import Aux from '../../../hoc/Aux/_Aux'
+import Aux from '../../../hoc/_Aux/_Aux'
 import Backdrop from '../Modal/Backdrop/Backdrop'
 
 interface Props{

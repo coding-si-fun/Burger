@@ -4,7 +4,7 @@ import Burger from "../../components/Burger/Burger";
 import Modal from '../../components/UI/Modal/Modal'
 import OrderSummary from "../../components/Burger/orderSummary/orderSummary";
 
-import Aux from "../../hoc/Aux/_Aux"
+import Aux from "../../hoc/_Aux/_Aux"
 import BuildControls from '../../components/Burger/BuildControls/BuildControls'
 
 import axios from "../../axios-orders"
