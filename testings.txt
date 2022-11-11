@@ -6,7 +6,7 @@ interface Props  {
 
 }
 
-
+dsd
 const BurgerIngredient: React.FC<Props>=(Props) => {
     
     let ingrediant:ReactElement | null = null;
