@@ -5,7 +5,7 @@ import Checkout from './containers/Checkout/Checkout'
 import { Route, Routes, Switch } from "react-router-dom"
 
 
-class App extends Component{
+class App extends Component{ 
   
     render() {
         return (
