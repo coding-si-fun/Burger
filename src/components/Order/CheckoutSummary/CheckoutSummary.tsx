@@ -10,14 +10,14 @@ const checkoutSummary:React.FC = (props) => {
         <div className={classes.CheckoutSummary}>
             <h1>I hope it tastes well</h1>
             <div style={{ width:"100%", height:"300px", margin:"auto"}}>
-            <Burger ingredients={props.ingredients}/>
+            <Burger ingredients={props.ingredientss}/>
             </div>
             <Button 
                 btnType="Danger"
-                clicked>CANCEL</Button>
+                clicked={props.checkoutCancelled}>CANCEL</Button>
             <Button 
             btnType="Success"
-            clicked>CONTINUE</Button>
+            clicked={props.checkoutContinued}>CONTINUE</Button>
         </div>
     )
 }

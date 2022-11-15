@@ -12,6 +12,7 @@ interface Props {
 
 const Buttons:React.FC<Props> =(props)=>{
     return (<button
+    disabled={props.disabled}
         className={[classes.Button, classes[props.btnType]].join(' ')}
         onClick={props.clicked}
     >{props.children}

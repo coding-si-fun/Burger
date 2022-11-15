@@ -2,9 +2,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MiniCssExtractorPlugin = require('mini-css-extract-plugin');
 
+// ..
+var path = require('path');
+
 module.exports = {
     entry:"./src/index.tsx",
     devtool:'eval-source-map',
+    // ..
+    output: {
+        path: path.resolve(__dirname, 'dist'),
+        filename: 'index_bundle.js',
+        publicPath: '/',
+    },
+
     resolve:{
         extensions:['.js', '.ts', '.tsx'],
     },
@@ -32,6 +42,9 @@ module.exports = {
             },
         ],
     },
+    devServer: {
+        historyApiFallback: true,
+      },
     plugins:[
         new HtmlWebpackPlugin({
             template: './src/index.html',
