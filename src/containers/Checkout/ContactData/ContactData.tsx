@@ -82,6 +82,7 @@ class ContactData extends React.Component {
                         {value:'cheapest', displayValue:'Cheapest'}]
             },
             value:'',
+            validation:{},
             valid:true,
         },
         },
@@ -151,7 +152,6 @@ class ContactData extends React.Component {
                 id:key,
                 config:this.state.orderForm[key]
             })
-            console.log(formElementsArray)
         }
         let form = ( <form onSubmit={this.orderHandler}>
         {formElementsArray.map(formElement =>(
