@@ -4,6 +4,8 @@ import classes from "./Button.css"
 
 
 interface Props {
+    disabled: boolean | undefined;
+    // disabled: boolean | undefined;
     btnType: string;
     clicked: MouseEventHandler<HTMLButtonElement> | undefined;
     children:JSX.Element | string;

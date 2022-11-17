@@ -36,22 +36,10 @@ const orderSummary:React.FC<Props>=(props)=>{
             </ul>
             <p>Total Price: <strong>{props.price.toFixed(2)}</strong></p>
             <p>Continue to Checkout?</p>
-            <Button btnType="Danger" clicked={props.purchaseCanceled}>CANCEL</Button>
-            <Button btnType="Success" clicked={props.purchaseContinued}>CONTINUE</Button>
+            <Button btnType="Danger" clicked={props.purchaseCanceled} disabled={undefined} >CANCEL</Button>
+            <Button btnType="Success" clicked={props.purchaseContinued} disabled={undefined}>CONTINUE</Button>
             </>
         </Aux>
     )
 };
 export default orderSummary
-
-
-
-// Object.entries(obj).forEach(([key, value], index) => {
-//     // 👇️ name Tom 0, country Chile 1
-//     console.log(key, value, index);
-
-
-// const ingredientSummary=Object.keys(props.ingredientss).map((igKey)=>{
-//     return (
-//     <li key={igKey}><span style={{textTransform:'capitalize'}}>{igKey}</span>: {props.ingredientss[igKey]}</li>)
-// })

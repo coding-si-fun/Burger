@@ -5,7 +5,7 @@ import {NavLink} from 'react-router-dom'
 import classes from "./navigationItem.css"
 
 interface Props {
-    active: boolean;
+    exact: boolean | undefined;
     children:string;
     link:string;
  

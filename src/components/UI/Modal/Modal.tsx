@@ -5,9 +5,9 @@ import Backdrop from '../Modal/Backdrop/Backdrop'
 
 interface Props{
     // modalClosed: MouseEventHandler<HTMLDivElement> | undefined;
-    children:JSX.Element
-    show:boolean
-    modalClosed:MouseEventHandler<HTMLDivElement>
+    children:JSX.Element | null
+    show:boolean 
+    modalClosed?:MouseEventHandler<HTMLDivElement>
     
 }
 
@@ -15,16 +15,10 @@ interface Props{
 
 class Modal extends React.Component<Props> {
 
-    shouldComponentUpdate ( nextProps: {
-        children: JSX.Element; show: boolean; 
-}, nextState:{show:boolean}) {
+    shouldComponentUpdate ( nextProps: { show: boolean; children: JSX.Element | JSX.Element[] | null; }, nextState:{show:boolean}) {
         return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
        
     }
-
-    // componentWillUpdate () {
-    //     console.log('[Modal] WillUpdate');
-    // }
 
     render () {
         return (

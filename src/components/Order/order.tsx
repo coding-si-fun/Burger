@@ -1,17 +1,24 @@
 import React from 'react'
 import classes from'./Order.css'
+import {Ingredients} from "../../containers/BurgerBuilder/BurgerBuilder"
 
-const order:React.FC = (props) => {
+
+interface Props {
+price: string
+ingredients:Ingredients
+}
+
+const order:React.FC<Props> = (props) => {
     const ingredients = []
     for (let ingredientName in props.ingredients ) {
         ingredients.push({
             name:ingredientName, 
-            amount:props.ingredients[ingredientName]})
+            amount:props.ingredients[ingredientName as keyof Ingredients]})
     }
     const ingredientOutput = ingredients.map(ig=>{
         return <span
         style={{
-            textTransform:"capitalise",
+            textTransform:"capitalize",
             display:'inline-block',
             margin:'0 8px',
             border:'1px solid #ccc',

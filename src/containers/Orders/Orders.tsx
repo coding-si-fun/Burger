@@ -2,15 +2,27 @@ import React from 'react'
 import Order from '../../components/Order/order'
 import axios from '../../axios-orders'
 import withErrorHandler from '../../hoc/WithErrorHandler/WithErrorHadler'
+import {Ingredients} from "../../containers/BurgerBuilder/BurgerBuilder"
+import {RouteComponentProps} from "react-router-dom"
+import { string } from 'prop-types'
 
-class Orders extends React.Component {
+interface Props extends RouteComponentProps{
+    ingredients:{},
+    price:number | string
+}
+
+const Oorder = {
+    id:string
+}
+
+class Orders extends React.Component <Props >{
     state={
         orders:[],
         loading:true
     }
     componentDidMount() {
         axios.get('orders.json')
-        .then((res:{}) => {
+        .then((res) => {
             const fetchedOrders=[];
             for(let key in res.data ){
                 fetchedOrders.push({
@@ -26,10 +38,10 @@ class Orders extends React.Component {
     render() {
         return (
         <div>
-            {this.state.orders.map(order => (
-                <Order key={order.id }
-                ingredients={order.ingredients}
-                price={order.price}></Order>
+            {this.state.orders.map((order )=> (
+                <Order key={order['id'] }
+                ingredients={order['ingredients']}
+                price={order['price']}></Order>
             ))}
         </div>
         )
