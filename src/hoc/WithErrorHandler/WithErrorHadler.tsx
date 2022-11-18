@@ -21,7 +21,7 @@ const withErrorHandler = (WrappedComponent: JSX.IntrinsicAttributes, axios: { in
         show!: null | boolean 
 
         componentWillMount () {
-            this.reqInterceptor = axios.interceptors.request.use((req:object) =>
+            this.reqInterceptor = axios.interceptors.request.use((req) =>
                 {
                     console.log("this is req", typeof this.reqInterceptor)
                 this.setState({error: null });

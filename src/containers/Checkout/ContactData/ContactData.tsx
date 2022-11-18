@@ -1,4 +1,5 @@
-import React from "react";
+import React, { Dispatch } from "react";
+import { AnyAction } from "redux";
 import Button from '../../../components/UI/Button/Button'
 import classes from './ContactData.css'
 import axios from "../../../axios-orders"
@@ -9,11 +10,15 @@ import {Ingredients} from "../../../containers/BurgerBuilder/BurgerBuilder"
 import {History} from "history"
 import {RouteComponentProps} from "react-router-dom"
 import { connect } from 'react-redux'
+import withErrorHandler from "../../../hoc/WithErrorHandler/WithErrorHadler"
+import * as actions from '../../../containers/store/actions/index'
+import {OrderData} from "../../store/actions/order"
 
 interface Props extends RouteComponentProps {
     valid?:string,
     price:number,
     ingredients:{},
+    onOrderBurger
 
     changed:(e:React.SuspenseProps)=>void,
     // history:History,
@@ -124,7 +129,7 @@ class ContactData extends React.Component <Props>{
         },
         },
         formIsValid:false,
-        loading:false,
+      
     }   
 
     checkValidity(value:string,rules:{  required:boolean, minLength?:number, maxLength?:number}){
@@ -142,7 +147,6 @@ class ContactData extends React.Component <Props>{
     }
     orderHandler =(e: { preventDefault: () => void; }) => {
             e.preventDefault();
-          this.setState({loading:true})
           const formData = {
             name:{},
             street:{},
@@ -158,8 +162,8 @@ class ContactData extends React.Component <Props>{
         orderData:formData,
         ingredients:this.props.ings,
         price:this.props.price,
-    
         }
+        this.props.onOrderBurger(order as order)
    axios.post('/orders.json', order)
    .then((response) =>{
     this.setState({loading:false})
@@ -211,7 +215,7 @@ class ContactData extends React.Component <Props>{
         ))}
         <Button btnType="Success"  disabled={!this.state.formIsValid} className={classes.Button}>ORDER</Button>
     </form>);
-        if(this.state.loading){
+        if(this.props.loading){
             form= <Spinner />
         }
         return (
@@ -226,10 +230,18 @@ class ContactData extends React.Component <Props>{
 const mapStateToProps = state =>{
     return {
         ings:state.ingredients,
-        price:state.totalPrice
+        price:state.totalPrice,
+        loading:state.loading
     }
 }
 
+const mapDispatchToProps =(dispatch) =>{
+    return {
+        onOrderBurger:(orderData:OrderData)=> dispatch(actions.purchaseBurgerStart(orderData))
+    }
+  
+}
 
-export default connect(mapStateToProps)(ContactData)
+
+export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ContactData, axios))
 

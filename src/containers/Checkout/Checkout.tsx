@@ -1,6 +1,6 @@
 import React from "react";
 import { History, Location } from 'history';
-import {Route, useHistory} from "react-router-dom"
+import {Route, useHistory, Redirect} from "react-router-dom"
 import {Ingredients} from "../../containers/BurgerBuilder/BurgerBuilder"
 import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSummary"
 import ContactData from './ContactData/ContactData'
@@ -28,7 +28,10 @@ class Checkout extends React.Component<Props> {
    }
 
     render() {
-         return (
+        let summary = <Redirect to="/" />
+        if (this.props.ings) {
+            console.log(" this is for redirecting", this.props.ings)
+            summary = (
             <div>
             <CheckoutSummary 
             ingredientss={this.props.ings}
@@ -36,9 +39,14 @@ class Checkout extends React.Component<Props> {
             checkoutContinued={ this.checkoutContinuedHandler } />
             <Route path={this.props.match.path + '/contact-data'} 
             component={ContactData}
-            />
+            /> 
             </div>
-        );
+            )
+        }
+         return summary
+          
+          
+     
     }
 }
 

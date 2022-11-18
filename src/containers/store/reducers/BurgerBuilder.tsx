@@ -1,9 +1,10 @@
 import { AnyAction, bindActionCreators } from "redux";
-import * as actionType from "./actions"
+import * as actionType from "../actions/actionTypes"
 
 interface UserControls {
   ingredients:{}
   totalPrice:number
+  error:boolean
 }
 const INGREDIENT_PRICES = {
   salad:0.5,
@@ -14,13 +15,9 @@ const INGREDIENT_PRICES = {
 
 
 const initialState:UserControls = {
-  ingredients:{
-        salad:0,
-        bacon:0,
-        cheese:0,
-        meat:0
-      },
+  ingredients:0,
   totalPrice:4,
+  error:false,
 }
 
 
@@ -44,6 +41,22 @@ const reducer = (state: UserControls = initialState, action: AnyAction)=>{
           },
           totalPrice:state.totalPrice - INGREDIENT_PRICES[action.ingredientName as keyof typeof state.ingredients]
         }
+        case actionType.SET_INGREDIENTS:
+          return {
+            ...state,
+            ingredients:{
+              salad:action.ingredients.salad,
+              bacon:action.ingredients.bacon,
+              cheese:action.ingredients.cheese,
+              meat:action.ingredients.meat,
+            },
+            error:false
+          }
+        case actionType.FETCH_INGREDIENTS_FAILD:
+          return {
+            ...state,
+            error:true
+          }
         default:
           return state
   }
@@ -51,13 +64,3 @@ const reducer = (state: UserControls = initialState, action: AnyAction)=>{
 }
 
 export default reducer
-
-// state : {
-//   ingredients:{
-//     salad:0,
-//     bacon:0,
-//     cheese:0,
-//     meat:0
-//   },
-//   totalPrice:4,
-// }
