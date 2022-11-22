@@ -24,6 +24,7 @@ import { AnyAction } from "redux";
 
 
 export interface Ingredients {
+  ingredients: any;
   salad:number;
   bacon:number;
   cheese:number;
@@ -80,6 +81,7 @@ type MyActions = {
     // ingredients:{},
     purchasing:false,
     // disabled:false,
+    error:{}
   }
   componentDidMount () {
     this.props.onInitIngredients()

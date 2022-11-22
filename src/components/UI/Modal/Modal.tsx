@@ -6,7 +6,7 @@ import Backdrop from '../Modal/Backdrop/Backdrop'
 interface Props{
     // modalClosed: MouseEventHandler<HTMLDivElement> | undefined;
     children:JSX.Element | null
-    show:boolean 
+    show:boolean
     modalClosed?:MouseEventHandler<HTMLDivElement>
     
 }

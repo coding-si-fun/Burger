@@ -33,6 +33,7 @@ export const purchaseBurgerStart = () => {
 
 export const purchaseBurger = (orderData:OrderData) => {
     return (dispatch:Dispatch<AnyAction>) => {
+        // dispatch(purchaseBurgerStart())
         axios.post( '/orders.json', orderData )
         .then( (response) => {
           dispatch(purchaseBurgerSuccess(response.data, orderData));
@@ -43,6 +44,8 @@ export const purchaseBurger = (orderData:OrderData) => {
         }
         
     }
+
+
 function dispatch(arg0: { type: string }) {
     throw new Error("Function not implemented.")
 }

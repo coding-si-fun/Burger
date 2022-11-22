@@ -5,7 +5,7 @@ import classes from './ContactData.css'
 import axios from "../../../axios-orders"
 import Spinner from "../../../components/UI/Spinner/Spinner";
 import Input from "../../../components/UI/imput/input";
-import { element } from "prop-types";
+import { element, string } from "prop-types";
 import {Ingredients} from "../../../containers/BurgerBuilder/BurgerBuilder"
 import {History} from "history"
 import {RouteComponentProps} from "react-router-dom"
@@ -17,9 +17,12 @@ import {OrderData} from "../../store/actions/order"
 interface Props extends RouteComponentProps {
     valid?:string,
     price:number,
-    ingredients:{},
-    onOrderBurger
-
+    loading:boolean,
+    // ingredients:Ingredients,
+    // orderData:{}
+    onOrderBurger: (order:{})=>void
+    purchaseBurgerStart():(orderdata:{})=>void
+    
     changed:(e:React.SuspenseProps)=>void,
     // history:History,
     validation:{
@@ -27,6 +30,7 @@ interface Props extends RouteComponentProps {
         minLength?:number,
          maxLength?:number,
     }
+    ings:Ingredients
     checkValidity:(
         value:string,
         rules:{
@@ -37,6 +41,14 @@ interface Props extends RouteComponentProps {
     )=>void,
 }
 
+// interface Idn {
+//     name:string | {},
+//     street:string| {},
+//     zipCode:string| {},
+//     country:string| {},
+//     email:string| {},
+//     deliveryMethod:string| {}
+// }
 
 
 class ContactData extends React.Component <Props>{
@@ -163,7 +175,7 @@ class ContactData extends React.Component <Props>{
         ingredients:this.props.ings,
         price:this.props.price,
         }
-        this.props.onOrderBurger(order as order)
+        this.props.onOrderBurger(order)
    axios.post('/orders.json', order)
    .then((response) =>{
     this.setState({loading:false})
@@ -174,17 +186,25 @@ class ContactData extends React.Component <Props>{
    )
     }
 
-    inputChangedHandler = (event:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>, inputIdentifier:string)=>{
+    inputChangedHandler = (event:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>, inputIdentifier:string) =>{
         const updatedOrderForm = {
             ...this.state.orderForm
         }
         const updatedFormElement= {
-            ...updatedOrderForm[inputIdentifier as keyof typeof updatedOrderForm]
+            ...updatedOrderForm[inputIdentifier as keyof typeof updatedOrderForm ]
         }
+        const formData = {
+            name:{},
+            street:{},
+            zipCode:{},
+            country:{},
+            email:{},
+            deliveryMethod:{}}
         updatedFormElement.value = event.target.value
         updatedFormElement.valid = this.checkValidity(updatedFormElement.value, updatedFormElement.validation)
         updatedFormElement.touched = true
         updatedOrderForm[inputIdentifier] = updatedFormElement;
+        console.log("for idenidtifier",inputIdentifier)
 
         let formIsValid = true;
         for(let inputIdentifier in updatedOrderForm){
@@ -213,7 +233,7 @@ class ContactData extends React.Component <Props>{
             value={formElement.config.value } 
             changed={(event:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>)=>this.inputChangedHandler(event , formElement.id)}/>
         ))}
-        <Button btnType="Success"  disabled={!this.state.formIsValid} className={classes.Button}>ORDER</Button>
+        <Button className={classes.Button} btnType="Success"  disabled={!this.state.formIsValid} >ORDER</Button>
     </form>);
         if(this.props.loading){
             form= <Spinner />
@@ -227,7 +247,7 @@ class ContactData extends React.Component <Props>{
     }
 }
 
-const mapStateToProps = state =>{
+const mapStateToProps = (state:{ingredients:{}, totalPrice:number, loading:boolean} )=>{
     return {
         ings:state.ingredients,
         price:state.totalPrice,
@@ -237,11 +257,12 @@ const mapStateToProps = state =>{
 
 const mapDispatchToProps =(dispatch) =>{
     return {
-        onOrderBurger:(orderData:OrderData)=> dispatch(actions.purchaseBurgerStart(orderData))
+        onOrderBurger:(orderData:OrderData)=> dispatch(actions.purchaseBurger(orderData))
     }
   
 }
 
 
 export default connect(mapStateToProps,mapDispatchToProps)(withErrorHandler(ContactData, axios))
+
 
