@@ -8,9 +8,9 @@ interface Props extends RouteComponentProps  {
     shouldValidate: {}
    
     changed:(event:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>)=>void
-    label: ReactNode;
+    label?: ReactNode;
     touched:boolean;
-    value: string;
+    value?: string;
     elementConfig: {
         options:[{
             displayValue:string,

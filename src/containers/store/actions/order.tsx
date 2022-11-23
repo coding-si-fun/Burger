@@ -25,16 +25,17 @@ export const purchaseBurgerFail=(error:string)=>{
 }
 
 export const purchaseBurgerStart = () => {
-    dispatch(purchaseBurgerStart())
+    // dispatch(purchaseBurgerStart())
     return {
         type:actionType.PURCHASE_BURGER_START
     }
 }
 
 export const purchaseBurger = (orderData:OrderData) => {
-    return (dispatch:Dispatch<AnyAction>) => {
-        // dispatch(purchaseBurgerStart())
-        axios.post( '/orders.json', orderData )
+    return (dispatch:Dispatch<AnyAction>) =>{
+        dispatch(purchaseBurgerStart())
+            //Here I had an order data  as a second argument on 'order.json, orderData
+        axios.post( '/orders.json')
         .then( (response) => {
           dispatch(purchaseBurgerSuccess(response.data.name, orderData));
         } )
@@ -45,10 +46,13 @@ export const purchaseBurger = (orderData:OrderData) => {
         
     }
 
-
-function dispatch(arg0: { type: string }) {
-    throw new Error("Function not implemented.")
+export const fetchOrdersSuccess =(orders) => {
+    return {
+        type:actionType.FETCH_ORDERS_SUCCESS,
+        orders: orders
+    }
 }
+
 
 export const purchaseInit = () => {
     return {
@@ -56,3 +60,35 @@ export const purchaseInit = () => {
     }
 }
 
+export const fetchOrdersFail = (error:string) => {
+    return {
+        type:actionType.FETCH_ORDERS_FAIL,
+        error:error
+    }
+}
+
+export const fetchOrdersStart = () => {
+    return {
+        type:actionType.FETCH_ORDERS_START
+
+    }
+}
+
+export const fetchOrders = () => {
+   return (dispatch: (arg0: { type: string; orders?: string[]; error?: string }) => {}) => {
+    dispatch(fetchOrdersStart())
+    axios.get('orders.json')
+    .then((res) => {
+        const fetchedOrders=[];
+        for(let key in res.data ){
+            fetchedOrders.push({
+                ...res.data[key],
+                id:key
+            })
+        }
+        dispatch(fetchOrdersSuccess(fetchedOrders));
+    }).catch( (err:string) => {
+       dispatch(fetchOrdersFail(err))
+    })
+   }
+    }

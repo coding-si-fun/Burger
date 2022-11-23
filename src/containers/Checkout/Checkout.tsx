@@ -16,6 +16,8 @@ interface Props extends RouteComponentProps  {
     ing:Ingredients
     price:number
     ings:Ingredients
+    onInitPurchase:()=>void
+    purchased:()=>void
 }
 
 
@@ -56,7 +58,9 @@ class Checkout extends React.Component<Props> {
     }
 }
 
-const mapStateToProps = (state:{totalPrice:number, ingredients:Ingredients}) => {
+const mapStateToProps = (state:{burgerBuilder:{ingredients:Ingredients}, order:{
+    purchased:boolean;
+}}) => {
     return {
         ings:state.burgerBuilder.ingredients,
         purchased:state.order.purchased
@@ -64,10 +68,10 @@ const mapStateToProps = (state:{totalPrice:number, ingredients:Ingredients}) => 
     }
 }
 
-// const mapDispatchToProps = dispatch => {
-//     return {
-//         onInitPurchase:() => dispatch(actions.purchaseInit())
-//     }
-// }
+const mapDispatchToProps = (dispatch: (arg0: { type: string; }) => {}) => {
+    return {
+        onInitPurchase:() => dispatch(actions.purchaseInit())
+    }
+}
 
-export default connect(mapStateToProps )(Checkout)
+export default connect(mapStateToProps,mapDispatchToProps )(Checkout)

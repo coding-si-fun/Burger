@@ -137,8 +137,7 @@ type MyActions = {
       }
 
        let orderSummary=null
-      let burger = this.state.error ? <p>Ingredients can't be loaded!</p> : <Spinner />;
-
+      let burger = this.state.error ?  <Spinner />:<p>Ingredients can't be loaded!</p>
 
       if (this.props.ings){
        burger =  (
@@ -176,8 +175,8 @@ type MyActions = {
     }
 }
 const mapStateToProps = (state: {
-  // burgerBuilder:()=>void;
- ingredients: Ingredients; totalPrice:number,error:boolean 
+  burgerBuilder:{
+ ingredients: Ingredients; totalPrice:number,error:boolean }
 }) =>{
   return {
     ings:state.burgerBuilder.ingredients,

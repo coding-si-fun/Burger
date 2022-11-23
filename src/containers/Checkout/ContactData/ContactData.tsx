@@ -1,5 +1,5 @@
 import React, { Dispatch } from "react";
-import { AnyAction } from "redux";
+import { Action, AnyAction } from "redux";
 import Button from '../../../components/UI/Button/Button'
 import classes from './ContactData.css'
 import axios from "../../../axios-orders"
@@ -13,6 +13,7 @@ import { connect } from 'react-redux'
 import withErrorHandler from "../../../hoc/WithErrorHandler/WithErrorHadler"
 import * as actions from '../../../containers/store/actions/index'
 import {OrderData} from "../../store/actions/order"
+import { ThunkDispatch } from "redux-thunk";
 
 interface Props extends RouteComponentProps {
     valid?:string,
@@ -24,7 +25,7 @@ interface Props extends RouteComponentProps {
     purchaseBurgerStart():(orderdata:{})=>void
     
     changed:(e:React.SuspenseProps)=>void,
-    // history:History,
+    // history?:History,
     validation:{
         required?:boolean
         minLength?:number,
@@ -40,16 +41,6 @@ interface Props extends RouteComponentProps {
         }
     )=>void,
 }
-
-// interface Idn {
-//     name:string | {},
-//     street:string| {},
-//     zipCode:string| {},
-//     country:string| {},
-//     email:string| {},
-//     deliveryMethod:string| {}
-// }
-
 
 class ContactData extends React.Component <Props>{
     state = {
@@ -224,14 +215,14 @@ class ContactData extends React.Component <Props>{
         {formElementsArray.map(formElement =>(
            
             <Input 
-            key={formElement.id}
-            elementType = {formElement.config.elementType}
-            elementConfig={formElement.config.elementConfig}
-            invalid={!formElement.config.valid }
-            touched= {formElement.config.touched}
-            shouldValidate={formElement.config.validation}
-            value={formElement.config.value } 
-            changed={(event:React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>)=>this.inputChangedHandler(event , formElement.id)}/>
+                key={formElement.id}
+                elementType={formElement.config.elementType}
+                elementConfig={formElement.config.elementConfig}
+                invalid={!formElement.config.valid}
+                touched={formElement.config.touched}
+                shouldValidate={formElement.config.validation}
+                value={formElement.config.value}
+                changed={(event: React.ChangeEvent<HTMLTextAreaElement | HTMLInputElement | HTMLSelectElement>) => this.inputChangedHandler(event, formElement.id)} />
         ))}
         <Button className={classes.Button} btnType="Success"  disabled={!this.state.formIsValid} >ORDER</Button>
     </form>);
@@ -247,7 +238,10 @@ class ContactData extends React.Component <Props>{
     }
 }
 
-const mapStateToProps = (state:{ingredients:{}, totalPrice:number, loading:boolean} )=>{
+const mapStateToProps = (state:{
+    burgerBuilder: {ingredients:Ingredients, totalPrice:number}
+    order:{loading:boolean};
+} )=>{
     return {
         ings:state.burgerBuilder.ingredients,
         price:state.burgerBuilder.totalPrice,
@@ -255,7 +249,7 @@ const mapStateToProps = (state:{ingredients:{}, totalPrice:number, loading:boole
     }
 }
 
-const mapDispatchToProps =(dispatch) =>{
+const mapDispatchToProps =(dispatch: ThunkDispatch< any, any, Action>) =>{
     return {
         onOrderBurger:(orderData:OrderData)=> dispatch(actions.purchaseBurger(orderData))
     }

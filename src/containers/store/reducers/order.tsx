@@ -1,6 +1,7 @@
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
 import * as actionTypes from "../actions/actionTypes"
+import {updatedObject} from '../utility'
 
 interface OrderData {
   orderData:{}
@@ -18,36 +19,54 @@ const initialState = {
   purchased:false
 };
 
-const reducer = (state=initialState, action:{type:string,OrderData:{},orderId:string})=> {
+interface initialState {
+  orders: string[],
+  loading: boolean,
+  purchased:boolean
+}
+
+const PurchaseInit=(state:initialState, action:AnyAction)=> {
+    return updatedObject(state,{purchased:false})
+}
+
+const purchaseBurgerStart =(state:initialState, action:AnyAction) => {
+    return updatedObject(state, {loading:true})
+}
+const purchaseBurgerSuccess=(state:initialState,  action:AnyAction)=> {
+  const newOrder = updatedObject(action.orderData,{id:action.orderId})
+  return updatedObject(state,{
+    loading:false,
+    purchased:true,
+    orders:state.orders.concat(newOrder)
+  })
+}
+
+const purchaseBurgerFail = (state:initialState, action:AnyAction) => {
+    return updatedObject(state,{laoding:false})
+}
+const fetchBurgerStart = (state:initialState, action:AnyAction) => {
+  return updatedObject(state,{laoding:true})
+}
+const fetchOrdersSuccess =(state:initialState, action:AnyAction) => {
+  return updatedObject(state, {  orders:action.orders,
+    loading:false})
+}
+
+const fetchOrdersFail=(state:initialState, action:AnyAction) => {
+  return updatedObject(state, {loading:false})
+}
+
+const reducer = (state:initialState, action:{type:string
+})=> {
   switch (action.type) {
-    case actionTypes.PURCHASE_INIT:
-      return {
-        ...state
-        purchased:false
-      }
-    case actionTypes.PURCHASE_BURGER_START:
-      return {
-        ...state,
-        loading:true
-      }
-    case actionTypes.PURCHASE_BURGER_SUCCESS:
-      const newOrder = {
-        ...action.OrderData,
-        id:action.orderId
-        purchased:true
-      }
-      return {
-        ...state,
-        loading:false,
-        orders:state.orders.concat(newOrder , [] as string[])
-      }
-    case actionTypes.PURCHASE_BURGER_FAIL:
-      return {
-        ...state,
-        loading:false
-      }
-    default:
-      return state;
+    case actionTypes.PURCHASE_INIT: return PurchaseInit(state, action)
+    case actionTypes.PURCHASE_BURGER_START:return purchaseBurgerStart(state, action)
+    case actionTypes.PURCHASE_BURGER_SUCCESS: return purchaseBurgerSuccess(state, action)
+    case actionTypes.PURCHASE_BURGER_FAIL: return purchaseBurgerFail(state, action)
+    case actionTypes.FETCH_ORDERS_START: return fetchBurgerStart(state, action)
+    case actionTypes.FETCH_ORDERS_SUCCESS: return fetchOrdersSuccess(state, action)
+    case actionTypes.FETCH_ORDERS_FAIL: return fetchOrdersFail(state, action)
+    default: return state;
   }
 }
 
