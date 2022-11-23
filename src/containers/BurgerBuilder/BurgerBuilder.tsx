@@ -14,7 +14,7 @@ import withErrorHandler from "../../hoc/WithErrorHandler/WithErrorHadler"
 import { History } from 'history';
 import {RouteComponentProps, useHistory} from "react-router-dom"
 import {connect, useDispatch} from 'react-redux'
-import * as BurgerBuilderActions from '../store/actions/index'
+import * as actions from '../store/actions/index'
 
 import axios from "../../axios-orders"
 import { AnyAction } from "redux";
@@ -43,6 +43,7 @@ export interface BurgerBuilderState extends RouteComponentProps{
   updatePurchaseState:()=>void
   onInitIngredients:()=>void
   price:number
+  onInitPurchase:()=>void
 }
 
 
@@ -108,7 +109,8 @@ type MyActions = {
   }
 
   purchaseContinueHandler = ()=>{
-    this.props.history.push('/checkout')
+    this.props.onInitPurchase();
+    this.props.history.push('/checkout');
   // const queryParams=[]
   // for (let i in this.state.ingredients){
   //    queryParams.push(encodeURIComponent(i) + '=' + encodeURIComponent(this.state.ingredients[i as keyof Ingredients]))
@@ -156,7 +158,7 @@ type MyActions = {
          ingredientss={this.props.ings}
          purchaseCanceled={this.purchaseCancelHandler}
          price={this.props.price}
-         purchaseContinued={this.purchaseContinueHandler}
+         purchaseContinued={ this.purchaseContinueHandler }
          />
       
 
@@ -173,20 +175,24 @@ type MyActions = {
         )
     }
 }
-const mapStateToProps = (state: { ingredients: Ingredients; totalPrice:number,error:boolean }) =>{
+const mapStateToProps = (state: {
+  // burgerBuilder:()=>void;
+ ingredients: Ingredients; totalPrice:number,error:boolean 
+}) =>{
   return {
-    ings:state.ingredients,
-    price:state.totalPrice ,
-    error:state.error
+    ings:state.burgerBuilder.ingredients,
+    price:state.burgerBuilder.totalPrice ,
+    error:state.burgerBuilder.error
   };
 }
 
-const mapDispatchToProps = (dispatch: Dispatch<AnyAction>)=> {
+const mapDispatchToProps = (dispatch)=> {
   console.log("I come from dispatch'",dispatch)
   return {
-    onIngredientAdded:(ingName: Ingredients)=>dispatch (BurgerBuilderActions.addIngredient(ingName)),
-    onIngredientRemove:(ingName:Ingredients)=>dispatch ((BurgerBuilderActions.removeIngredient(ingName))),
-    onInitIngredients:()=>dispatch((BurgerBuilderActions.initIngredients()))
+    onIngredientAdded:(ingName: Ingredients)=>dispatch (actions.addIngredient(ingName)),
+    onIngredientRemove:(ingName:Ingredients)=>dispatch ((actions.removeIngredient(ingName))),
+    onInitIngredients:()=>dispatch((actions.initIngredients())),
+    onInitPurchase:()=>dispatch(actions.purchaseInit)
     
     
   }

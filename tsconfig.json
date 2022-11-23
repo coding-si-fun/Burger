@@ -2,8 +2,8 @@
     "compilerOptions":{
         "target":"esnext",
         "module": "es6",
-        "strict":false,
-        "noEmit": false,
+        "strict":true,
+        "noEmit": true,
         "isolatedModules":true,
         "esModuleInterop": true,
         "skipLibCheck":true,

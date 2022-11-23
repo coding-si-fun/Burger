@@ -6,6 +6,7 @@ import CheckoutSummary from "../../components/Order/CheckoutSummary/CheckoutSumm
 import ContactData from './ContactData/ContactData'
 import {RouteComponentProps} from 'react-router-dom'
 import {connect} from 'react-redux'
+import * as actions from "../store/actions/index"
 
 
 interface Props extends RouteComponentProps  {
@@ -19,6 +20,9 @@ interface Props extends RouteComponentProps  {
 
 
 class Checkout extends React.Component<Props> {
+    componentWillMount(): void {
+        this.props.onInitPurchase();
+    }
    checkoutCancelledHandler=()=>{
     this.props.history.goBack()
    }
@@ -30,9 +34,11 @@ class Checkout extends React.Component<Props> {
     render() {
         let summary = <Redirect to="/" />
         if (this.props.ings) {
+            const purchasedRedirect = this.props.purchased ?  <Redirect to="/"/> : null
             console.log(" this is for redirecting", this.props.ings)
             summary = (
             <div>
+                {purchasedRedirect}
             <CheckoutSummary 
             ingredientss={this.props.ings}
             checkoutCancelled={ this.checkoutCancelledHandler }
@@ -52,9 +58,16 @@ class Checkout extends React.Component<Props> {
 
 const mapStateToProps = (state:{totalPrice:number, ingredients:Ingredients}) => {
     return {
-        ings:state.ingredients
+        ings:state.burgerBuilder.ingredients,
+        purchased:state.order.purchased
         
     }
 }
 
-export default connect(mapStateToProps)(Checkout)
+// const mapDispatchToProps = dispatch => {
+//     return {
+//         onInitPurchase:() => dispatch(actions.purchaseInit())
+//     }
+// }
+
+export default connect(mapStateToProps )(Checkout)

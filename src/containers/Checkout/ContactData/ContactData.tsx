@@ -132,7 +132,7 @@ class ContactData extends React.Component <Props>{
                options:[{value:'fastest', displayValue:'Fastest'},
                         {value:'cheapest', displayValue:'Cheapest'}] 
             },
-            value:'',
+            value:'fastest',
             validation:{
                 required:true,
             },
@@ -249,9 +249,9 @@ class ContactData extends React.Component <Props>{
 
 const mapStateToProps = (state:{ingredients:{}, totalPrice:number, loading:boolean} )=>{
     return {
-        ings:state.ingredients,
-        price:state.totalPrice,
-        loading:state.loading
+        ings:state.burgerBuilder.ingredients,
+        price:state.burgerBuilder.totalPrice,
+        loading:state.order.loading
     }
 }
 

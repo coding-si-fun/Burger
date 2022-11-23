@@ -6,15 +6,26 @@ import { render } from "react-dom";
 import "./index.css";
 import { BrowserRouter } from 'react-router-dom'
 import {Provider} from 'react-redux'
-import { createStore, applyMiddleware,compose } from 'redux'
-import BurgerBuilderReducer from "./containers/store/reducers/BurgerBuilder"
+import { createStore, applyMiddleware,compose, combineReducers } from 'redux'
+import burgerBuilderReducer from "./containers/store/reducers/BurgerBuilder"
 import thunk from "redux-thunk";
 import App from './App';
+import orderReducer from './containers/store/reducers/order'
 
 // const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(BurgerBuilderReducer, composeWithDevTools(applyMiddleware(thunk)));
+
+
+const rootReducer = combineReducers({
+    burgerBuilder:burgerBuilderReducer, 
+    order:orderReducer
+})
+
+const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
 // console.log((windows as any).hello())
+
+
+
 const app=(
     <Provider store={store}>
     <BrowserRouter>

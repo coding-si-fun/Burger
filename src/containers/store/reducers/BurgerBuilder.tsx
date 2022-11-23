@@ -16,7 +16,7 @@ const INGREDIENT_PRICES = {
 
 const initialState:UserControls = {
   ingredients:0,
-  totalPrice:4,
+  totalPrice:2,
   error:false,
 }
 
@@ -50,7 +50,8 @@ const reducer = (state: UserControls = initialState, action: AnyAction)=>{
               cheese:action.ingredients.cheese,
               meat:action.ingredients.meat,
             },
-            error:false
+            error:false,
+            totalPrice:4,
           }
         case actionType.FETCH_INGREDIENTS_FAILD:
           return {
