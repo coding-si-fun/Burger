@@ -51,13 +51,3 @@ const reducer = (state: UserControls = initialState, action: AnyAction)=>{
 }
 
 export default reducer
-
-// state : {
-//   ingredients:{
-//     salad:0,
-//     bacon:0,
-//     cheese:0,
-//     meat:0
-//   },
-//   totalPrice:4,
-// }
