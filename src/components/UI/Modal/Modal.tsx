@@ -1,29 +1,22 @@
-import React, { MouseEventHandler } from 'react';
-import classes from './Modal.css'
-import Aux from '../../../hoc/_Aux/_Aux'
-import Backdrop from '../Modal/Backdrop/Backdrop'
+import React, { Component } from 'react';
 
-interface Props{
-    // modalClosed: MouseEventHandler<HTMLDivElement> | undefined;
-    children:JSX.Element | null
-    show:boolean
-    modalClosed?:MouseEventHandler<HTMLDivElement>
-    
-}
+import classes from './Modal.css';
+import Aux from '../../../hoc/Aux/Aux';
+import Backdrop from '../Backdrop/Backdrop';
 
+class Modal extends Component {
 
-
-class Modal extends React.Component<Props> {
-
-    shouldComponentUpdate ( nextProps: { show: boolean; children: JSX.Element | JSX.Element[] | null; }, nextState:{show:boolean}) {
+    shouldComponentUpdate ( nextProps, nextState ) {
         return nextProps.show !== this.props.show || nextProps.children !== this.props.children;
-       
+    }
+
+    componentWillUpdate () {
+        console.log('[Modal] WillUpdate');
     }
 
     render () {
         return (
             <Aux>
-                <>
                 <Backdrop show={this.props.show} clicked={this.props.modalClosed} />
                 <div
                     className={classes.Modal}
@@ -33,7 +26,6 @@ class Modal extends React.Component<Props> {
                     }}>
                     {this.props.children}
                 </div>
-                </>
             </Aux>
         )
     }

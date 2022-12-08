@@ -1,31 +1,28 @@
-import React from "react";
-import { composeWithDevTools } from 'redux-devtools-extension';
-// import  ReactDOM  from "react-dom";
-import { createRoot } from 'react-dom/client';
-import { render } from "react-dom";
-import "./index.css";
-import { BrowserRouter } from 'react-router-dom'
-import { Provider } from 'react-redux'
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux'
-import burgerBuilderReducer from "./containers/store/reducers/BurgerBuilder"
-import thunk from "redux-thunk";
+import React from 'react';
+import ReactDOM from 'react-dom';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
+import thunk from 'redux-thunk';
+
+import './index.css';
 import App from './App';
-import orderReducer from './containers/store/reducers/order'
-import { auth } from "./containers/store/actions/auth"
+import registerServiceWorker from './registerServiceWorker';
+import burgerBuilderReducer from './store/reducers/burgerBuilder';
+import orderReducer from './store/reducers/order';
+import authReducer from './store/reducers/auth';
 
-// const composeEnhancer = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
-
-
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const rootReducer = combineReducers({
     burgerBuilder: burgerBuilderReducer,
     order: orderReducer,
-})
+    auth: authReducer
+});
 
-const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(thunk)));
-// console.log((windows as any).hello())
-
-
+const store = createStore(rootReducer, composeEnhancers(
+    applyMiddleware(thunk)
+));
 
 const app = (
     <Provider store={store}>
@@ -34,6 +31,6 @@ const app = (
         </BrowserRouter>
     </Provider>
 );
-const container = document.getElementById("root")
-const root = createRoot(container!)
-root.render(app)
+
+ReactDOM.render( app, document.getElementById( 'root' ) );
+registerServiceWorker();

@@ -1,37 +1,29 @@
-import React, { MouseEventHandler } from "react";
-import Logo from "../../Logo/logo";
+import React from 'react';
+
+import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
-import classes from "./sideDrawer.css"
-import Backdrop from "../../UI/Modal/Backdrop/Backdrop";
-import Aux from '../../../hoc/_Aux/_Aux'
+import classes from './SideDrawer.css';
+import Backdrop from '../../UI/Backdrop/Backdrop';
+import Aux from '../../../hoc/Aux/Aux';
 
-interface Props {
-    closed: MouseEventHandler<HTMLDivElement> | undefined;
-    open: boolean;    
-}
-
-
-const sideDrawer:React.FC<Props> =(props) => {
-
-    let attachedClasses = [classes.SideDrawer, classes.Close]
+const sideDrawer = ( props ) => {
+    let attachedClasses = [classes.SideDrawer, classes.Close];
     if (props.open) {
-        attachedClasses = [classes.SideDrawer, classes.Open]
+        attachedClasses = [classes.SideDrawer, classes.Open];
     }
     return (
         <Aux>
-            <>
-            <Backdrop show={props.open} clicked={props.closed }/>
-                <div className={attachedClasses.join(' ')}>
-                    <div className={ classes.LogoSide }>
-                        <Logo />
-                    </div>
-                    <nav>
-                        <NavigationItems />
-                    </nav>
+            <Backdrop show={props.open} clicked={props.closed}/>
+            <div className={attachedClasses.join(' ')}>
+                <div className={classes.Logo}>
+                    <Logo />
                 </div>
-            </>
+                <nav>
+                    <NavigationItems isAuthenticated={props.isAuth} />
+                </nav>
+            </div>
         </Aux>
-    )
-}
+    );
+};
 
-export default sideDrawer
+export default sideDrawer;
