@@ -3,8 +3,8 @@ import React from 'react';
 import burgerLogo from '../../assets/images/burger-logo.png';
 import classes from './Logo.css';
 
-interface Props {
-    height: number;
+export interface Props {
+    height?: number;
 }
 const logo: React.FC<Props> = (props) => (
     <div className={classes.Logo} style={{ height: props.height }}>

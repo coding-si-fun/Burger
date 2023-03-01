@@ -6,14 +6,22 @@ import classes from './SideDrawer.css';
 import Backdrop from '../../UI/Backdrop/Backdrop';
 import Aux from '../../../hoc/Aux/Aux';
 
-const sideDrawer = ( props ) => {
+export interface Props {
+    height?: number;
+    open: boolean;
+    isAuth: boolean;
+    closed: boolean;
+
+}
+
+const sideDrawer: React.FC<Props> = (props) => {
     let attachedClasses = [classes.SideDrawer, classes.Close];
     if (props.open) {
         attachedClasses = [classes.SideDrawer, classes.Open];
     }
     return (
         <Aux>
-            <Backdrop show={props.open} clicked={props.closed}/>
+            <Backdrop show={props.open} clicked={props.closed} />
             <div className={attachedClasses.join(' ')}>
                 <div className={classes.Logo}>
                     <Logo />

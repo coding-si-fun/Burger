@@ -2,7 +2,12 @@ import React from 'react';
 
 import classes from './NavigationItems.css';
 import NavigationItem from './NavigationItem/NavigationItem';
-import { Props } from './NavigationItem';
+
+export interface Props {
+    isAuthenticated: boolean;
+    exact?: boolean;
+    link?: string;
+}
 
 
 

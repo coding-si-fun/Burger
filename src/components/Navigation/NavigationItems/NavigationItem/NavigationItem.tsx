@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom';
 
 import classes from './NavigationItem.css';
 
-export interface Props {
+interface Props {
     children: ReactNode;
     exact?: boolean;
     link: string;
