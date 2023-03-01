@@ -3,20 +3,35 @@ import React, { Component } from 'react';
 import Aux from '../../../hoc/Aux/Aux';
 import Button from '../../UI/Button/Button';
 
-class OrderSummary extends Component {
+
+interface Ingredients {
+    salad: number;
+    bacon: number;
+    cheese: number;
+    meat: number;
+}
+
+interface Props {
+    purchaseCanceled: () => void
+    purchaseContinued: () => void
+    ingredients: Ingredients
+    price: number;
+}
+
+class OrderSummary extends React.Component<Props> {
     // This could be a functional component, doesn't have to be a class
     componentWillUpdate() {
         console.log('[OrderSummary] WillUpdate');
     }
 
-    render () {
-        const ingredientSummary = Object.keys( this.props.ingredients )
-            .map( igKey => {
+    render() {
+        const ingredientSummary = Object.keys(this.props.ingredients)
+            .map(igKey => {
                 return (
                     <li key={igKey}>
-                        <span style={{ textTransform: 'capitalize' }}>{igKey}</span>: {this.props.ingredients[igKey]}
-                    </li> );
-            } );
+                        <span style={{ textTransform: 'capitalize' }}>{igKey}</span>: {this.props.ingredients[igKey as keyof Ingredients]}
+                    </li>);
+            });
 
         return (
             <Aux>
@@ -25,9 +40,9 @@ class OrderSummary extends Component {
                 <ul>
                     {ingredientSummary}
                 </ul>
-                <p><strong>Total Price: {this.props.price.toFixed( 2 )}</strong></p>
+                <p><strong>Total Price: {this.props.price.toFixed(2)}</strong></p>
                 <p>Continue to Checkout?</p>
-                <Button btnType="Danger" clicked={this.props.purchaseCancelled}>CANCEL</Button>
+                <Button btnType="Danger" clicked={this.props.purchaseCanceled}>CANCEL</Button>
                 <Button btnType="Success" clicked={this.props.purchaseContinued}>CONTINUE</Button>
             </Aux>
         );

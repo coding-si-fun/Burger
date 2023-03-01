@@ -10,7 +10,15 @@ import Auth from './containers/Auth/Auth';
 import Logout from './containers/Auth/Logout/Logout';
 import * as actions from './store/actions/index';
 
-class App extends Component {
+interface Props {
+  onTryAutoSignup: () => void
+  isAuthenticated: boolean;
+}
+
+
+
+
+class App extends React.Component<Props> {
   componentDidMount() {
     this.props.onTryAutoSignup();
   }
@@ -38,21 +46,23 @@ class App extends Component {
 
     return (
       <div>
-        <Layout>
-          {routes}
-        </Layout>
+        <>
+          <Layout>
+            {routes}
+          </Layout>
+        </>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
+const mapStateToProps = (state: { auth: { token: null; }; }) => {
   return {
     isAuthenticated: state.auth.token !== null
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch: (arg0: (dispatch: any) => void) => any) => {
   return {
     onTryAutoSignup: () => dispatch(actions.authCheckState())
   };
