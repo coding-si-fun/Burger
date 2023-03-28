@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
 
 import Logo from '../../Logo/Logo';
 import NavigationItems from '../NavigationItems/NavigationItems';
@@ -10,7 +10,8 @@ export interface Props {
     height?: number;
     open: boolean;
     isAuth: boolean;
-    closed: boolean;
+    closed: MouseEventHandler<HTMLDivElement>;
+    clicked?: MouseEventHandler<HTMLDivElement>
 
 }
 
@@ -22,7 +23,7 @@ const sideDrawer: React.FC<Props> = (props) => {
     return (
         <Aux>
             <Backdrop show={props.open} clicked={props.closed} />
-            <div className={attachedClasses.join(' ')}>
+            <div className={attachedClasses.join(' ')} onClick={props.closed}>
                 <div className={classes.Logo}>
                     <Logo />
                 </div>

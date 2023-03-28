@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { DetailedHTMLProps, HTMLAttributes, MouseEventHandler } from 'react';
 
 import classes from './Backdrop.css';
 
-const backdrop = (props) => (
+interface Props {
+    clicked: MouseEventHandler<HTMLDivElement>
+    onClick?: DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>
+    // clicked: boolean;
+    show: boolean;
+}
+
+const backdrop: React.FC<Props> = (props) => (
     props.show ? <div className={classes.Backdrop} onClick={props.clicked}></div> : null
 );
 

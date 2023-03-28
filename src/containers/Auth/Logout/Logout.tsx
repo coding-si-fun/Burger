@@ -1,23 +1,35 @@
-import React, { Component } from 'react';
+import React, { Component, useEffect } from 'react';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
 import * as actions from '../../../store/actions/index';
+import { ThunkDispatch } from 'redux-thunk';
+import { AnyAction } from 'redux';
 
-class Logout extends Component {
-    componentDidMount () {
-        this.props.onLogout();
-    }
-
-    render () {
-        return <Redirect to="/"/>;
-    }
+interface Props {
+    onLogout: () => void
 }
 
-const mapDispatchToProps = dispatch => {
+interface IExtraDispatchArguments {
+
+}
+
+interface IStoreState {
+
+}
+
+const logout: React.FC<Props> = props => {
+    const { onLogout } = props
+    useEffect(() => {
+        props.onLogout();
+    }, [onLogout])
+    return <Redirect to="/" />;
+}
+
+const mapDispatchToProps = (dispatch: ThunkDispatch<IStoreState, IExtraDispatchArguments, AnyAction>) => {
     return {
         onLogout: () => dispatch(actions.logout())
     };
 };
 
-export default connect(null, mapDispatchToProps)(Logout);
+export default connect(null, mapDispatchToProps)(logout);

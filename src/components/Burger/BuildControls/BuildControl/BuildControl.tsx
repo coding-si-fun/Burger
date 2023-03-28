@@ -4,7 +4,7 @@ import classes from './BuildControl.css';
 
 interface Props {
     label: string;
-    disabled: boolean;
+    disabled: number | boolean;
     removed: () => void;
     added: () => void;
     price: number;
@@ -16,7 +16,7 @@ const buildControl: React.FC<Props> = (props) => (
         <button
             className={classes.Less}
             onClick={props.removed}
-            disabled={props.disabled}>Less</button>
+            disabled={props.disabled as boolean}>Less</button>
         <button
             className={classes.More}
             onClick={props.added}>More</button>

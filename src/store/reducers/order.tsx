@@ -1,49 +1,57 @@
 import * as actionTypes from '../actions/actionTypes';
-import { updateObject } from '../utility';
+import { forOrder } from '../actions/order';
+import { updateObject } from '../../containers/shared/utility';
 
 const initialState = {
-    orders: [],
+    orders: [] as forOrder[],
     loading: false,
     purchased: false
 };
 
-const purchaseInit = (state, action) => {
+interface ActionsforOrfersTypes {
+    type: keyof typeof actionTypes
+    orderData: forOrder;
+    orders: forOrder[]
+    orderId: string;
+}
+
+const purchaseInit = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     return updateObject(state, { purchased: false });
 };
 
-const purchaseBurgerStart = (state, action) => {
+const purchaseBurgerStart = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     return updateObject(state, { loading: false });
 };
 
-const purchaseBurgerSuccess = (state, action) => {
+const purchaseBurgerSuccess = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     const newOrder = updateObject(action.orderData, { id: action.orderId });
     return updateObject(state, {
         loading: false,
         purchased: true,
-        orders: state.orders.concat(newOrder)
+        orders: state.orders.concat(newOrder as [])
     });
 };
 
-const purchaseBurgerFail = (state, action) => {
+const purchaseBurgerFail = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     return updateObject(state, { loading: false });
 };
 
-const fetchOrdersStart = (state, action) => {
+const fetchOrdersStart = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     return updateObject(state, { loading: true });
 };
 
-const fetchOrdersSuccess = (state, action) => {
+const fetchOrdersSuccess = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     return updateObject(state, {
         orders: action.orders,
         loading: false
     });
 };
 
-const fetchOrdersFail = (state, action) => {
+const fetchOrdersFail = (state: typeof initialState, action: ActionsforOrfersTypes) => {
     return updateObject(state, { loading: false });
 };
 
-const reducer = (state = initialState, action) => {
+const reducer = (state = initialState, action: ActionsforOrfersTypes) => {
     switch (action.type) {
         case actionTypes.PURCHASE_INIT: return purchaseInit(state, action);
         case actionTypes.PURCHASE_BURGER_START: return purchaseBurgerStart(state, action);

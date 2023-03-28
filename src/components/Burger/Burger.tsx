@@ -20,7 +20,6 @@ interface Ingredients {
 }
 
 const burger: React.FC<Props> = (props) => {
-    console.log(props);
     let transformedIngredients = Object.keys(props.ingredients)
         .map(igKey => {
             return [...Array(props.ingredients[igKey as keyof Ingredients])].map((_, i) => {

@@ -4,9 +4,9 @@ import classes from './BuildControls.css';
 import BuildControl from './BuildControl/BuildControl';
 
 interface Props {
+    // disabled: string[];
     isAuth: boolean;
     ordered: MouseEventHandler<HTMLButtonElement> | undefined;
-
     // disabled: any;
     ingredientAdded(type: string): void;
     ingredientRemoved(type: string): void;
@@ -14,32 +14,24 @@ interface Props {
     purchasable: boolean;
     //onClick: React. MouseEvent<HTMLButtonElement, MouseEvent>
     price: number
-    disabled: DisabledInfo
+    // disabled: DisabledInfo
+    disabled: { [key: string]: number | boolean }
 }
 
+// interface Ingredients {
+//     salad: string;
+//     bacon: string;
+//     meat: string;
+//     cheese: string;
 
+// }
+// interface DisabledInfo {
+//     salad: boolean,
+//     cheese: boolean,
+//     meat: boolean,
+//     bacon: boolean,
 
-interface Ingredients {
-    salad: string;
-    bacon: string;
-    meat: string;
-    cheese: string;
-
-}
-interface DisabledInfo {
-    salad: boolean,
-    cheese: boolean,
-    meat: boolean,
-    bacon: boolean,
-
-}
-
-const DISABLED_INFO: DisabledInfo = {
-    salad: true,
-    cheese: true,
-    meat: true,
-    bacon: true
-}
+// }
 
 
 const controls = [
@@ -60,7 +52,7 @@ const buildControls: React.FC<Props> = (props) => (
                 label={ctrl.label}
                 added={() => props.ingredientAdded(ctrl.type)}
                 removed={() => props.ingredientRemoved(ctrl.type)}
-                disabled={props.disabled[ctrl.type as keyof typeof DISABLED_INFO]} price={0} />
+                disabled={props.disabled[ctrl.type]} price={0} />
         ))}
         <button
             className={classes.OrderButton}

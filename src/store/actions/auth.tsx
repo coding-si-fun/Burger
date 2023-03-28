@@ -1,6 +1,17 @@
 import axios from 'axios';
+import { AnyAction, Dispatch } from "redux"
 
 import * as actionTypes from './actionTypes';
+
+import { ThunkDispatch } from 'redux-thunk';
+
+interface IExtraDispatchArguments {
+
+}
+
+interface IStoreState {
+
+}
 
 export const authStart = () => {
     return {
@@ -8,7 +19,7 @@ export const authStart = () => {
     };
 };
 
-export const authSuccess = (token, userId) => {
+export const authSuccess = (token: string, userId: string | null) => {
     return {
         type: actionTypes.AUTH_SUCCESS,
         idToken: token,
@@ -16,7 +27,7 @@ export const authSuccess = (token, userId) => {
     };
 };
 
-export const authFail = (error) => {
+export const authFail = (error: string) => {
     return {
         type: actionTypes.AUTH_FAIL,
         error: error
@@ -32,16 +43,16 @@ export const logout = () => {
     };
 };
 
-export const checkAuthTimeout = (expirationTime) => {
-    return dispatch => {
+export const checkAuthTimeout = (expirationTime: number) => {
+    return (dispatch: Dispatch) => {
         setTimeout(() => {
             dispatch(logout());
         }, expirationTime * 1000);
     };
 };
 
-export const auth = (email, password, isSignup) => {
-    return dispatch => {
+export const auth = (email: string, password: string, isSignup: boolean) => {
+    return (dispatch: ThunkDispatch<IStoreState, IExtraDispatchArguments, AnyAction>) => {
         dispatch(authStart());
         const authData = {
             email: email,
@@ -53,11 +64,11 @@ export const auth = (email, password, isSignup) => {
             url = 'https://www.googleapis.com/identitytoolkit/v3/relyingparty/verifyPassword?key=AIzaSyARBXjEP5raFRWExrMSypNZ_rLFwsZP4PE';
         }
         axios.post(url, authData)
-            .then(response => {
+            .then((response: { data: { idToken: string; localId: string; expiresIn: number } }) => {
                 console.log(response);
                 const expirationDate = new Date(new Date().getTime() + response.data.expiresIn * 1000);
                 localStorage.setItem('token', response.data.idToken);
-                localStorage.setItem('expirationDate', expirationDate);
+                localStorage.setItem('expirationDate', `${expirationDate}`);
                 localStorage.setItem('userId', response.data.localId);
                 dispatch(authSuccess(response.data.idToken, response.data.localId));
                 dispatch(checkAuthTimeout(response.data.expiresIn));
@@ -68,7 +79,7 @@ export const auth = (email, password, isSignup) => {
     };
 };
 
-export const setAuthRedirectPath = (path) => {
+export const setAuthRedirectPath = (path: string) => {
     return {
         type: actionTypes.SET_AUTH_REDIRECT_PATH,
         path: path
@@ -76,12 +87,12 @@ export const setAuthRedirectPath = (path) => {
 };
 
 export const authCheckState = () => {
-    return dispatch => {
+    return (dispatch: ThunkDispatch<IStoreState, IExtraDispatchArguments, AnyAction>) => {
         const token = localStorage.getItem('token');
         if (!token) {
             dispatch(logout());
         } else {
-            const expirationDate = new Date(localStorage.getItem('expirationDate'));
+            const expirationDate = new Date(localStorage.getItem('expirationDate') ?? 0);
             if (expirationDate <= new Date()) {
                 dispatch(logout());
             } else {
